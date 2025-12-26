@@ -108,28 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // ---------- Contact Form Submission ----------
-  const contactForm = document.getElementById('contactForm');
-  
-  if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form data
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData);
-      
-      // Here you would typically send the data to a server
-      console.log('Form submitted:', data);
-      
-      // Show success message (you can replace this with a proper toast/modal)
-      alert('Thank you for your message! We will get back to you soon.');
-      
-      // Reset form
-      this.reset();
-    });
-  }
-  
   // ---------- Active Navigation State ----------
   function setActiveNav() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
@@ -177,10 +155,33 @@ document.addEventListener('DOMContentLoaded', function() {
   
 });
 
-const form = document.getElementById('contactForm');
-form.addEventListener('submit', function() {
-  setTimeout(() => {
-    document.getElementById('formSuccess').classList.remove('d-none');
-    form.reset();
-  }, 1000);
-});
+// ---------- Contact Form Submission with Netlify Forms ----------
+const contactForm = document.getElementById('contactForm');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    // Remove any previous preventDefault if there was old code
+
+    const formData = new FormData(contactForm);
+
+    // Add hidden fields for Netlify (important!)
+    formData.append('form-name', contactForm.getAttribute('name'));
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams(formData).toString()
+    })
+    .then(() => {
+      // Success message
+      alert('Thank you! Your message has been sent successfully. We will get back to you soon.');
+      contactForm.reset();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Oops! Something went wrong. Please try again.');
+    });
+  });
+}
