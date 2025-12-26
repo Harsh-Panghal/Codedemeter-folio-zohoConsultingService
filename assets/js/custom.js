@@ -176,3 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
   statElements.forEach(el => statsObserver.observe(el));
   
 });
+
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', function() {
+  setTimeout(() => {
+    document.getElementById('formSuccess').classList.remove('d-none');
+    form.reset();
+  }, 1000);
+});
