@@ -187,14 +187,13 @@
               <form
                 id="contactForm"
                 class="contact-form"
-                name="contact"
+                name="codedemeter-contact"
                 method="POST"
                 data-netlify="true"
-                netlify-honeypot="bot-field"
+                data-netlify-honeypot="bot-field"
               >
-                <!-- Spam protection hidden field -->
-                <div class="d-none">
-                  <label>Don’t fill this out if you're human:</label>
+                <!-- Honeypot for spam protection -->
+                <div hidden>
                   <input name="bot-field" />
                 </div>
 
